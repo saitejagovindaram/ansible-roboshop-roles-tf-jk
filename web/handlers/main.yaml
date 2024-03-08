@@ -1,0 +1,3 @@
+- name: configuration changed
+  ansible.builtin.debug:
+    msg: reverse proxy conf changed

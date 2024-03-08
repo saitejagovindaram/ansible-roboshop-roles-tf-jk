@@ -1,0 +1,28 @@
+- name: Copy mongodb repo
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: install mongo shell
+  ansible.builtin.package:
+    name: mongodb-org-shell
+    state: present
+
+- name: load mongodb test
+  ansible.builtin.command: mongo --host mongodb-dev.saitejag.site --quiet --eval 'db.getSiblingDB("{{component}}").products.count()'
+  register: product_count
+  when: component == "catalogue"
+
+- name: load mongodb
+  ansible.builtin.command: "mongo --host mongodb-dev.saitejag.site:27017 < /app/schema/{{component}}.js"
+  when: component == "catalogue" and product_count.stdout == "0"
+
+
+- name: get the users count
+  ansible.builtin.command:  mongo --host mongodb-dev.saitejag.site --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
+  register: user_count
+  when: component == "user"
+
+- name: load user data
+  ansible.builtin.command: mongo --host mongodb-dev.saitejag.site < /app/schema/user.js
+  when: component == "user" and user_count.stdout == "0"

@@ -1,0 +1,21 @@
+- ansible.builtin.import_role:
+    name: common
+    tasks_from: installNodeJs18
+
+- ansible.builtin.import_role:
+    name: common
+    tasks_from: downloadSourceCode
+
+- ansible.builtin.import_role:
+    name: common
+    tasks_from: installDependencies
+
+- ansible.builtin.import_role:
+    name: common
+    tasks_from: loadDataToMongodb
+
+- ansible.builtin.import_role:
+    name: common
+    tasks_from: startService
+  notify:
+    - started-catalogue

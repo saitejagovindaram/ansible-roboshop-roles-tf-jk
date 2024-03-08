@@ -1,0 +1,12 @@
+- name: installing mysql client
+  ansible.builtin.package:
+    name: mysql
+    state: present
+
+- name: check cities schema exists or not
+  ansible.builtin.command:  mysql -h mysql-dev.saitejag.site -uroot -p{{ lookup('aws_ssm', '/roboshop/{{env}}/mysql_root_pass', region='us-east-1', decrypt=True ) }} -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'"
+  register: schema
+
+- name: load sample mysql data
+  ansible.builtin.shell: "mysql -h mysql-dev.saitejag.site -uroot -p{{ lookup('aws_ssm', '/roboshop/{{env}}/mysql_root_pass', region='us-east-1', decrypt=True ) }} < /app/schema/shipping.sql"
+  when: schema.stdout == "0"

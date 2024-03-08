@@ -1,0 +1,3 @@
+- name: started-cart
+  ansible.builtin.debug:
+    msg: started cart service successfully

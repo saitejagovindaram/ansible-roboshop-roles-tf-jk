@@ -1,0 +1,10 @@
+---
+- name: "Configuring {{component}} for Roboshop, environment={{env}}"
+  hosts: localhost
+  become: yes
+  vars_files:
+    - "{{env}}/variables_root.yaml"
+  tasks:
+    - name: "Running {{component}} role"
+      ansible.builtin.import_role:
+       name: "{{component}}"

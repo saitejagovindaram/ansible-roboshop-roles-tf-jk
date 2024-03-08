@@ -1,0 +1,3 @@
+- name: started-catalogue
+  ansible.builtin.debug:
+    msg: started catalgue service successfully

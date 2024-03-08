@@ -1,0 +1,10 @@
+- name: Disable nodejs package using command module
+  ansible.builtin.command: dnf module disable nodejs -y
+    
+- name: Add nodejs 18 package using command module
+  ansible.builtin.command: dnf module enable nodejs:18 -y
+
+- name: install nodejs 18
+  ansible.builtin.package:
+    name: nodejs
+    state: present

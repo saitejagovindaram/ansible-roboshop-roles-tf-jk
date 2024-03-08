@@ -1,0 +1,32 @@
+# 1. stop service
+# 2. download new version of source code
+# 3. install dependencies
+# 4. start service
+
+- name: "stopping {{component}}"
+  ansible.builtin.service:
+    name: "{{component}}"
+    state: stopped
+
+# - name: download new version of source code
+#   ansible.builtin.get_url:
+#     url:
+#     path:
+
+- name: install npm dependencies
+  ansible.builtin.command: npm install 
+  args:
+    chdir: /app
+  when: component != "shipping"
+
+- name: install maven dependencies
+  ansible.builtin.command: mvn clean package
+  args:
+    chdir: /app
+  when: component == "shipping"
+
+- name: "start and enable {{component}}"
+  ansible.builtin.service:
+    name: "{{component}}"
+    state: started
+    enabled: yes

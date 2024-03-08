@@ -1,0 +1,3 @@
+- name: started-service
+  ansible.builtin.debug:
+    msg: Shipping service has started successfully
