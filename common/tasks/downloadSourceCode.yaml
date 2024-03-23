@@ -11,7 +11,7 @@
 
 - name: "Download {{component}} application source code zip file"
   ansible.builtin.get_url:
-    url: "http://34.234.65.6:8081/repository/{{component}}/com/roboshop/{{component}}/{{version}}/{{component}}-{{version}}.zip"
+    url: "http://52.3.247.132:8081/repository/{{component}}/com/roboshop/{{component}}/{{version}}/{{component}}-{{version}}.zip"
     dest: /tmp
 
 - name: "Extract {{component}}.zip to /app directory"
